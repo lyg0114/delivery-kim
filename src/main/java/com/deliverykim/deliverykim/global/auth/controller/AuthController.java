@@ -1,8 +1,6 @@
 package com.deliverykim.deliverykim.global.auth.controller;
 
-import com.deliverykim.deliverykim.global.auth.model.dto.LoginDto;
-import com.deliverykim.deliverykim.global.auth.model.dto.SignUpDto;
-import com.deliverykim.deliverykim.global.auth.model.dto.WithdrawalDto;
+import com.deliverykim.deliverykim.global.auth.model.dto.*;
 import com.deliverykim.deliverykim.global.auth.service.AuthService;
 import com.deliverykim.deliverykim.global.exception.CommonResponseEntity;
 import com.deliverykim.deliverykim.global.exception.ResponseCode;
@@ -32,6 +30,11 @@ public class AuthController {
 	@GetMapping("/login")
 	public CommonResponseEntity<LoginDto.Response> login(@Valid @RequestBody LoginDto.Request loginRequest) {
 		return new CommonResponseEntity<>(ResponseCode.SUCCESS, authService.login(loginRequest));
+	}
+
+	@GetMapping("/refresh-token")
+	public CommonResponseEntity<TokenInfo> login(@Valid @RequestBody TokenRefreshInfo tokenRefreshInfo) {
+		return new CommonResponseEntity<>(ResponseCode.SUCCESS, null);
 	}
 
 	@DeleteMapping("/withdrawal")
