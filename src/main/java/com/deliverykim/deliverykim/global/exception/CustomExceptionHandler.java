@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -33,6 +34,18 @@ public class CustomExceptionHandler {
 			ResponseCode.get(userHandlerException.getResponseCode().getCode()),
 			userHandlerException
 		);
+	}
+
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public Object processMethodArgumentNotValidException(
+		MethodArgumentNotValidException methodArgumentNotValidException) {
+		BindingResult result = methodArgumentNotValidException.getBindingResult();
+
+		String message = getValidationErrorString(result);
+		ResponseCode responseCode = ResponseCode.ILLEGAL_ARGUMENT;
+		responseCode.setMessage(message);
+
+		return new CommonResponseEntity<>(responseCode, methodArgumentNotValidException);
 	}
 
 	private String getValidationErrorString(BindingResult result) {
