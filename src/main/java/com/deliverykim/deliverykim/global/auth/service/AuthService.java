@@ -2,8 +2,10 @@ package com.deliverykim.deliverykim.global.auth.service;
 
 import com.deliverykim.deliverykim.domain.member.model.entity.Member;
 import com.deliverykim.deliverykim.domain.member.repository.MemberRepository;
+import com.deliverykim.deliverykim.global.auth.model.dto.AuthInfo;
 import com.deliverykim.deliverykim.global.auth.model.dto.LoginDto;
 import com.deliverykim.deliverykim.global.auth.model.dto.SignUpDto;
+import com.deliverykim.deliverykim.global.auth.model.dto.TokenInfo;
 import com.deliverykim.deliverykim.global.config.PasswordEncoder;
 import com.deliverykim.deliverykim.global.exception.custom.UserHandlerException;
 import lombok.RequiredArgsConstructor;
@@ -36,24 +38,29 @@ public class AuthService {
 	}
 
 	public LoginDto.Response login(LoginDto.Request loginRequest) {
-		validateDuplicatedEmail(loginRequest.getEmail());
-		validatePassword(loginRequest);
+		Member findMember = memberRepository.findByEmail(loginRequest.getEmail())
+				.orElseThrow(() -> new UserHandlerException(DO_NOT_EXIST_EMAIL));
 
-		return null;
+		validatePassword(findMember);
+
+		TokenInfo tokenInfo = tokenManager.generateAuthenticationToken(AuthInfo.from(findMember));
+
+		return LoginDto.Response.builder()
+				.tokenInfo(tokenInfo)
+				.userInfo(LoginDto.from(findMember))
+				.build();
 	}
 
 	private void validateDuplicatedEmail(String email) {
-		if (memberRepository.existsByEmail(email)) {
+		if (memberRepository.existsByEmailAndIsDeletedFalse(email)) {
 			throw new UserHandlerException(ALREADY_EXIST_EMAIL);
 		}
 	}
 
-	private void validatePassword(LoginDto.Request loginRequest) {
-		Member member = memberRepository.findByEmail(loginRequest.getEmail())
-			.orElseThrow(() -> new UserHandlerException(DO_NOT_EXIST_EMAIL));
-
-		if (!passwordEncoder.matches(loginRequest.getPassword(), member.getPassword())) {
+	private void validatePassword(Member member) {
+		if (!passwordEncoder.matches(member.getPassword(), member.getPassword())) {
 			throw new UserHandlerException(DO_NOT_MATCH_PASSWORLD);
 		}
 	}
+
 }
