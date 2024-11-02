@@ -1,22 +1,15 @@
 package com.deliverykim.deliverykim.global.auth.controller;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.deliverykim.deliverykim.global.auth.model.dto.Login;
+import com.deliverykim.deliverykim.global.auth.model.dto.LoginDto;
 import com.deliverykim.deliverykim.global.auth.model.dto.SignUpDto;
 import com.deliverykim.deliverykim.global.auth.model.dto.WithdrawalDto;
 import com.deliverykim.deliverykim.global.auth.service.AuthService;
 import com.deliverykim.deliverykim.global.exception.CommonResponseEntity;
 import com.deliverykim.deliverykim.global.exception.ResponseCode;
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author : iyeong-gyo
@@ -37,7 +30,7 @@ public class AuthController {
 	}
 
 	@GetMapping("/login")
-	public CommonResponseEntity<Login.Response> login(@Valid @RequestBody Login.Request loginRequest) {
+	public CommonResponseEntity<LoginDto.Response> login(@Valid @RequestBody LoginDto.Request loginRequest) {
 		return new CommonResponseEntity<>(ResponseCode.SUCCESS, authService.login(loginRequest));
 	}
 

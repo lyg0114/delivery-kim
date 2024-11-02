@@ -1,17 +1,16 @@
 package com.deliverykim.deliverykim.global.exception;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.util.MultiValueMap;
+
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.util.MultiValueMap;
-
-import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public enum ResponseCode {
@@ -33,9 +32,15 @@ public enum ResponseCode {
 	EXCHANGE_FALLBACK("9999", "내부 서비스 통신 오류.", HttpStatus.INTERNAL_SERVER_ERROR),
 
 	//---------------------------------------- 회원 도메인 영역 ( 2000 ~ 2999 ) ----------------------------------------
-	ALREADY_EXIST_EMAIL("2000", "이미 존재하는 이메일 입니다.", HttpStatus.BAD_REQUEST),
-	DO_NOT_EXIST_EMAIL("2001", "존재하지 않는 이메일 입니다.", HttpStatus.BAD_REQUEST),
-	DO_NOT_MATCH_PASSWORLD("2002", "패스워드가 일치하지 않습니다.", HttpStatus.BAD_REQUEST),
+	ALREADY_EXIST_EMAIL("2000", "이미 존재하는 이메일", HttpStatus.BAD_REQUEST),
+	DO_NOT_EXIST_EMAIL("2001", "존재하지 않는 이메일", HttpStatus.BAD_REQUEST),
+	DO_NOT_MATCH_PASSWORLD("2002", "패스워드 불일치", HttpStatus.BAD_REQUEST),
+	ACCESS_TOKEN_INVALID("2003", "엑세스 토큰 인증 실패", HttpStatus.UNAUTHORIZED),
+	ACCESS_TOKEN_EXPIRED_ERROR("2004","엑세스 토큰 기한 만료",HttpStatus.UNAUTHORIZED),
+	REFRESH_TOKEN_INVALID("2005", "리프레쉬 토큰 인증 실패", HttpStatus.UNAUTHORIZED),
+	REFRESH_TOKEN_EXPIRED_ERROR("2006","리프레시 토큰 기한 만료",HttpStatus.UNAUTHORIZED),
+	INVALID_TOKEN("2007", "유효 하지 않은 토큰", HttpStatus.UNAUTHORIZED),
+
 
 	;
 

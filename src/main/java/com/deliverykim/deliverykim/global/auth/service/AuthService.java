@@ -1,19 +1,17 @@
 package com.deliverykim.deliverykim.global.auth.service;
 
-import static com.deliverykim.deliverykim.global.exception.ResponseCode.*;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.deliverykim.deliverykim.domain.member.model.entity.Member;
 import com.deliverykim.deliverykim.domain.member.repository.MemberRepository;
-import com.deliverykim.deliverykim.global.auth.model.dto.Login;
+import com.deliverykim.deliverykim.global.auth.model.dto.LoginDto;
 import com.deliverykim.deliverykim.global.auth.model.dto.SignUpDto;
 import com.deliverykim.deliverykim.global.config.PasswordEncoder;
 import com.deliverykim.deliverykim.global.exception.custom.UserHandlerException;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import static com.deliverykim.deliverykim.global.exception.ResponseCode.*;
 
 /**
  * @author : iyeong-gyo
@@ -28,6 +26,7 @@ public class AuthService {
 
 	private final MemberRepository memberRepository;
 	private final PasswordEncoder passwordEncoder;
+	private final TokenManager tokenManager;
 
 	public SignUpDto.Response signUp(SignUpDto.Request signupRequest) {
 		validateDuplicatedEmail(signupRequest.getEmail());
@@ -36,7 +35,7 @@ public class AuthService {
 		return SignUpDto.from(savedMember);
 	}
 
-	public Login.Response login(Login.Request loginRequest) {
+	public LoginDto.Response login(LoginDto.Request loginRequest) {
 		validateDuplicatedEmail(loginRequest.getEmail());
 		validatePassword(loginRequest);
 
@@ -49,7 +48,7 @@ public class AuthService {
 		}
 	}
 
-	private void validatePassword(Login.Request loginRequest) {
+	private void validatePassword(LoginDto.Request loginRequest) {
 		Member member = memberRepository.findByEmail(loginRequest.getEmail())
 			.orElseThrow(() -> new UserHandlerException(DO_NOT_EXIST_EMAIL));
 
