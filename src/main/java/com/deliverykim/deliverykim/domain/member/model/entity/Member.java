@@ -55,6 +55,6 @@ public class Member extends BaseEntity {
 	@Builder.Default
 	@Comment("회원의 탈퇴 여부")
 	@Column(name = "is_delete")
-	private boolean isDelete = false;
+	private boolean isDeleted = false;
 
 }

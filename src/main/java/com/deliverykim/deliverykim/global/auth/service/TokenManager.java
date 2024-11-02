@@ -36,8 +36,8 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @RequiredArgsConstructor
 public class TokenManager {
 
-    private static final String ACCESS_TOKEN_SECRET = "access_token_secret";
-    private static final String REFRESH_TOKEN_SECRET = "refresh_token_secret";
+    private static final String ACCESS_TOKEN_SECRET = "access_token_secret_access_token_secret_access_token_secret";
+    private static final String REFRESH_TOKEN_SECRET = "refresh_token_secret_refresh_token_secret_refresh_token_secret";
     private static final String ROLE = "role";
 
 

@@ -1,5 +1,6 @@
 package com.deliverykim.deliverykim.global.auth.model.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -15,6 +16,11 @@ public class WithdrawalDto {
 	@Builder
 	@Getter
 	public static class Request {
+		@NotBlank
+		private String email;
+
+		@NotBlank
+		private String password;
 	}
 
 	@Builder

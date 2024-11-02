@@ -2,10 +2,7 @@ package com.deliverykim.deliverykim.global.auth.service;
 
 import com.deliverykim.deliverykim.domain.member.model.entity.Member;
 import com.deliverykim.deliverykim.domain.member.repository.MemberRepository;
-import com.deliverykim.deliverykim.global.auth.model.dto.AuthInfo;
-import com.deliverykim.deliverykim.global.auth.model.dto.LoginDto;
-import com.deliverykim.deliverykim.global.auth.model.dto.SignUpDto;
-import com.deliverykim.deliverykim.global.auth.model.dto.TokenInfo;
+import com.deliverykim.deliverykim.global.auth.model.dto.*;
 import com.deliverykim.deliverykim.global.config.PasswordEncoder;
 import com.deliverykim.deliverykim.global.exception.custom.UserHandlerException;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +38,7 @@ public class AuthService {
 		Member findMember = memberRepository.findByEmail(loginRequest.getEmail())
 				.orElseThrow(() -> new UserHandlerException(DO_NOT_EXIST_EMAIL));
 
-		validatePassword(findMember);
+		validatePassword(loginRequest, findMember);
 
 		TokenInfo tokenInfo = tokenManager.generateAuthenticationToken(AuthInfo.from(findMember));
 
@@ -57,10 +54,15 @@ public class AuthService {
 		}
 	}
 
-	private void validatePassword(Member member) {
-		if (!passwordEncoder.matches(member.getPassword(), member.getPassword())) {
+	private void validatePassword(LoginDto.Request loginRequest, Member member) {
+		if (!passwordEncoder.matches(loginRequest.getPassword(), member.getPassword())) {
 			throw new UserHandlerException(DO_NOT_MATCH_PASSWORLD);
 		}
+	}
+
+	public WithdrawalDto.Response withdrawal(WithdrawalDto.Request withdrawalRequest) {
+		log.info("#########################");
+		return null;
 	}
 
 }

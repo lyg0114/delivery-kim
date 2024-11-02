@@ -24,7 +24,7 @@ public class AuthController {
 
 	private final AuthService authService;
 
-	@PostMapping("/register")
+	@PostMapping("/sign-up")
 	public CommonResponseEntity<SignUpDto.Response> signUp(@Valid @RequestBody SignUpDto.Request signupRequest) {
 		return new CommonResponseEntity<>(ResponseCode.SUCCESS, authService.signUp(signupRequest));
 	}
@@ -35,8 +35,8 @@ public class AuthController {
 	}
 
 	@DeleteMapping("/withdrawal")
-	public CommonResponseEntity<WithdrawalDto.Response> withdrawal(@Valid @RequestBody WithdrawalDto.Request signupRequest) {
-		return new CommonResponseEntity<>(ResponseCode.SUCCESS, null);
+	public CommonResponseEntity<WithdrawalDto.Response> withdrawal(@Valid @RequestBody WithdrawalDto.Request withdrawalRequest) {
+		return new CommonResponseEntity<>(ResponseCode.SUCCESS, authService.withdrawal(withdrawalRequest));
 	}
 
 }

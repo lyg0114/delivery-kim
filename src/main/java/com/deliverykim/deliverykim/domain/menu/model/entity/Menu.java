@@ -51,6 +51,6 @@ public class Menu extends BaseEntity {
 	@Comment("메뉴 삭제 여부")
 	@Column(name = "is_Delete")
 	@Builder.Default
-	private boolean isDelete = false;
+	private boolean isDeleted = false;
 
 }
