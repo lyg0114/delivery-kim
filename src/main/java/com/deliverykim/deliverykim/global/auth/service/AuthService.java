@@ -81,4 +81,26 @@ public class AuthService {
 		findMember.doWithdrawal();
 	}
 
+	public TokenInfo refreshToken(TokenRefreshInfo tokenRefreshInfo) {
+		VerifyTokenInfo verifyTokenInfo = tokenManager.verifyRefreshToken(tokenRefreshInfo.getRefreshToken());
+		Member member = memberRepository.findByEmail(verifyTokenInfo.getEmail())
+				.orElseThrow(() -> new UserHandlerException(DO_NOT_EXIST_EMAIL));
+
+		validateMemberInfoWithRefreshToken(verifyTokenInfo, member);
+
+		TokenInfo tokenInfo = tokenManager.generateAuthenticationToken(AuthInfo.from(member));
+
+		return tokenInfo;
+	}
+
+	private void validateMemberInfoWithRefreshToken(VerifyTokenInfo verifyTokenInfo, Member member) {
+		if (!verifyTokenInfo.getEmail().equals(member.getEmail())) {
+			throw new UserHandlerException(REFRESH_TOKEN_AUTHENTICATION_FAIL);
+		}
+
+		if (!(verifyTokenInfo.getMemberRole() == member.getMemberRole())) {
+			throw new UserHandlerException(REFRESH_TOKEN_AUTHENTICATION_FAIL);
+		}
+	}
+
 }

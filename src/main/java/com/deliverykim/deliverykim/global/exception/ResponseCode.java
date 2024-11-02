@@ -36,12 +36,10 @@ public enum ResponseCode {
 	ALREADY_EXIST_EMAIL("2000", "이미 존재하는 이메일", HttpStatus.BAD_REQUEST),
 	DO_NOT_EXIST_EMAIL("2001", "존재하지 않는 이메일", HttpStatus.BAD_REQUEST),
 	DO_NOT_MATCH_PASSWORLD("2002", "패스워드 불일치", HttpStatus.BAD_REQUEST),
-	ACCESS_TOKEN_INVALID("2003", "토큰 인증 실패", HttpStatus.UNAUTHORIZED),
-	ACCESS_TOKEN_EXPIRED_ERROR("2004","엑세스 토큰 기한 만료",HttpStatus.UNAUTHORIZED),
-	REFRESH_TOKEN_INVALID("2005", "리프레쉬 토큰 인증 실패", HttpStatus.UNAUTHORIZED),
-	REFRESH_TOKEN_EXPIRED_ERROR("2006","리프레시 토큰 기한 만료",HttpStatus.UNAUTHORIZED),
+	TOKEN_AUTHENTICATION_FAIL("2003", "토큰 인증 실패", HttpStatus.UNAUTHORIZED),
+	TOKEN_EXPIRED_ERROR("2004","토큰 기한 만료",HttpStatus.UNAUTHORIZED),
+	REFRESH_TOKEN_AUTHENTICATION_FAIL("2005", "리프레쉬 토큰 인증 실패", HttpStatus.UNAUTHORIZED),
 	INVALID_TOKEN("2007", "유효 하지 않은 토큰", HttpStatus.UNAUTHORIZED),
-
 	ALREADY_WITHDRAWAL_MEMBER("2008", "이미 탈퇴처리된 계정", HttpStatus.UNAUTHORIZED),
 	WITHDRAWAL_EMAIL("2009", "탈퇴처리된 계정", HttpStatus.UNAUTHORIZED),
 

@@ -118,9 +118,9 @@ public class TokenManager {
         try {
             claimsJws = Jwts.parser().verifyWith(secureSecretKey).build().parseSignedClaims(token);
         } catch (SignatureException e) {
-            throw new AuthenticationException(ResponseCode.ACCESS_TOKEN_INVALID);
+            throw new AuthenticationException(ResponseCode.TOKEN_AUTHENTICATION_FAIL);
         } catch (ExpiredJwtException e) {
-            throw new AuthenticationException(ResponseCode.ACCESS_TOKEN_EXPIRED_ERROR);
+            throw new AuthenticationException(ResponseCode.TOKEN_EXPIRED_ERROR);
         } catch (Exception e) {
             throw new AuthenticationException(ResponseCode.INVALID_TOKEN);
         }

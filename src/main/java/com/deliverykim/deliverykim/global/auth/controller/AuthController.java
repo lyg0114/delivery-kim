@@ -33,8 +33,8 @@ public class AuthController {
 	}
 
 	@GetMapping("/refresh-token")
-	public CommonResponseEntity<TokenInfo> login(@Valid @RequestBody TokenRefreshInfo tokenRefreshInfo) {
-		return new CommonResponseEntity<>(ResponseCode.SUCCESS, null);
+	public CommonResponseEntity<TokenInfo> refreshToken(@Valid @RequestBody TokenRefreshInfo tokenRefreshInfo) {
+		return new CommonResponseEntity<>(ResponseCode.SUCCESS, authService.refreshToken(tokenRefreshInfo));
 	}
 
 	@DeleteMapping("/withdrawal")
