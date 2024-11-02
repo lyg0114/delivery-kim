@@ -81,7 +81,7 @@ public class TokenManager {
                 ;
     }
 
-    private VerifyTokenInfo verifyAccessToken(String accessToken) {
+    public VerifyTokenInfo verifyAccessToken(String accessToken) {
         final SecretKey secureAccessSecret = Keys.hmacShaKeyFor(ACCESS_TOKEN_SECRET.getBytes());
         Jws<Claims> claimsJws = verifyToken(accessToken, secureAccessSecret);
 

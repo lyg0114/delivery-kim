@@ -8,6 +8,7 @@ import org.springframework.util.MultiValueMap;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +36,7 @@ public enum ResponseCode {
 	ALREADY_EXIST_EMAIL("2000", "이미 존재하는 이메일", HttpStatus.BAD_REQUEST),
 	DO_NOT_EXIST_EMAIL("2001", "존재하지 않는 이메일", HttpStatus.BAD_REQUEST),
 	DO_NOT_MATCH_PASSWORLD("2002", "패스워드 불일치", HttpStatus.BAD_REQUEST),
-	ACCESS_TOKEN_INVALID("2003", "엑세스 토큰 인증 실패", HttpStatus.UNAUTHORIZED),
+	ACCESS_TOKEN_INVALID("2003", "토큰 인증 실패", HttpStatus.UNAUTHORIZED),
 	ACCESS_TOKEN_EXPIRED_ERROR("2004","엑세스 토큰 기한 만료",HttpStatus.UNAUTHORIZED),
 	REFRESH_TOKEN_INVALID("2005", "리프레쉬 토큰 인증 실패", HttpStatus.UNAUTHORIZED),
 	REFRESH_TOKEN_EXPIRED_ERROR("2006","리프레시 토큰 기한 만료",HttpStatus.UNAUTHORIZED),
@@ -73,12 +74,23 @@ public enum ResponseCode {
 		return responseCode;
 	}
 
+	public static ResponseCode getResponseCode(String code) {
+		return Arrays.stream(ResponseCode.values())
+				.filter(val -> val.hasCodeName(code))
+				.findAny()
+				.orElse(null);
+	}
+
+	public boolean hasCodeName(String code) {
+		return this.code.equals(code);
+	}
+
 	public HttpStatus getHttpStatusCode() {
 		return httpStatus;
 	}
 
-	private static final String RESULT_CODE = "Result-Code";
-	private static final String RESULT_MESSAGE = "Result-Message";
+	public static final String RESULT_CODE = "Result-Code";
+	public static final String RESULT_MESSAGE = "Result-Message";
 
 	public HttpHeaders generateCommonResponseHeaders() {
 		HttpHeaders httpHeaders = new HttpHeaders();
