@@ -42,9 +42,6 @@ public class Member extends BaseEntity {
 	@Column(name = "email")
 	private String email;
 
-	// TODO :
-	//  - 대소문자 포함 영문 + 숫자 + 특수문자를 최소 1글자씩 포함
-	// 	- 비밀번호는 최소 8글자 이상
 	@Comment("사용자 패스워드")
 	@Column(name = "password")
 	private String password;
