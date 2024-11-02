@@ -38,8 +38,9 @@ public class AuthController {
 	}
 
 	@DeleteMapping("/withdrawal")
-	public CommonResponseEntity<WithdrawalDto.Response> withdrawal(@Valid @RequestBody WithdrawalDto.Request withdrawalRequest) {
-		return new CommonResponseEntity<>(ResponseCode.SUCCESS, authService.withdrawal(withdrawalRequest));
+	public CommonResponseEntity<Void> withdrawal(@Valid @RequestBody WithdrawalDto.Request withdrawalRequest) {
+		authService.withdrawal(withdrawalRequest);
+		return new CommonResponseEntity<>(ResponseCode.SUCCESS);
 	}
 
 }

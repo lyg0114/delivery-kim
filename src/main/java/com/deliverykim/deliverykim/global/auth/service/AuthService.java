@@ -29,6 +29,7 @@ public class AuthService {
 
 	public SignUpDto.Response signUp(SignUpDto.Request signupRequest) {
 		validateDuplicatedEmail(signupRequest.getEmail());
+		// TODO : 탈퇴한 사용자의 계정은 재활용 할 수 없도록 처리
 
 		Member savedMember = memberRepository.save(signupRequest.toEntity(passwordEncoder));
 		return SignUpDto.from(savedMember);
@@ -38,7 +39,7 @@ public class AuthService {
 		Member findMember = memberRepository.findByEmail(loginRequest.getEmail())
 				.orElseThrow(() -> new UserHandlerException(DO_NOT_EXIST_EMAIL));
 
-		validatePassword(loginRequest, findMember);
+		validatePassword(loginRequest.getPassword(), findMember.getPassword());
 
 		TokenInfo tokenInfo = tokenManager.generateAuthenticationToken(AuthInfo.from(findMember));
 
@@ -49,20 +50,28 @@ public class AuthService {
 	}
 
 	private void validateDuplicatedEmail(String email) {
-		if (memberRepository.existsByEmailAndIsDeletedFalse(email)) {
+		if (memberRepository.existsByEmailAndIsWithdrawalFalse(email)) {
 			throw new UserHandlerException(ALREADY_EXIST_EMAIL);
 		}
 	}
 
-	private void validatePassword(LoginDto.Request loginRequest, Member member) {
-		if (!passwordEncoder.matches(loginRequest.getPassword(), member.getPassword())) {
+	private void validatePassword(String rawPassword, String encodedPassowrd) {
+		if (!passwordEncoder.matches(rawPassword, encodedPassowrd)) {
 			throw new UserHandlerException(DO_NOT_MATCH_PASSWORLD);
 		}
 	}
 
-	public WithdrawalDto.Response withdrawal(WithdrawalDto.Request withdrawalRequest) {
-		log.info("#########################");
-		return null;
+	public void withdrawal(WithdrawalDto.Request withdrawalRequest) {
+		Member findMember = memberRepository.findByEmail(withdrawalRequest.getEmail())
+				.orElseThrow(() -> new UserHandlerException(DO_NOT_EXIST_EMAIL));
+
+		if (findMember.isWithdrawal()) {
+			throw new UserHandlerException(ALREADY_WITHDRAWAL_MEMBER);
+		}
+
+		validatePassword(withdrawalRequest.getPassword(), findMember.getPassword());
+
+		findMember.doWithdrawal();
 	}
 
 }

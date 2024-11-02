@@ -1,24 +1,16 @@
 package com.deliverykim.deliverykim.domain.member.model.entity;
 
-import static jakarta.persistence.GenerationType.*;
-import static lombok.AccessLevel.*;
-
-import org.hibernate.annotations.Comment;
-
 import com.deliverykim.deliverykim.domain.common.BaseEntity;
 import com.deliverykim.deliverykim.domain.member.model.define.MemberRole;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
+
+import static jakarta.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.PROTECTED;
 
 /**
  * @author : iyeong-gyo
@@ -54,7 +46,10 @@ public class Member extends BaseEntity {
 
 	@Builder.Default
 	@Comment("회원의 탈퇴 여부")
-	@Column(name = "is_delete")
-	private boolean isDeleted = false;
+	@Column(name = "is_withdrawal")
+	private boolean isWithdrawal = false;
 
+	public void doWithdrawal() {
+		isWithdrawal = true;
+	}
 }

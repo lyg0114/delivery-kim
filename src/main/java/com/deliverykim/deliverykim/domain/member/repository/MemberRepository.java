@@ -12,7 +12,7 @@ import java.util.Optional;
  */
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
-	boolean existsByEmailAndIsDeletedFalse(String email);
+	boolean existsByEmailAndIsWithdrawalFalse(String email);
 
 	Optional<Member> findByEmail(String username);
 
