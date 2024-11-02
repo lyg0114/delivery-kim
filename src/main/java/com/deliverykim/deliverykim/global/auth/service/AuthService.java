@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 import static com.deliverykim.deliverykim.global.exception.ResponseCode.*;
 
 /**
@@ -28,11 +30,22 @@ public class AuthService {
 	private final TokenManager tokenManager;
 
 	public SignUpDto.Response signUp(SignUpDto.Request signupRequest) {
-		validateDuplicatedEmail(signupRequest.getEmail());
-		// TODO : 탈퇴한 사용자의 계정은 재활용 할 수 없도록 처리
+		Optional<Member> byEmail = memberRepository.findByEmail(signupRequest.getEmail());
+		validateDuplicatedEmail(byEmail);
 
 		Member savedMember = memberRepository.save(signupRequest.toEntity(passwordEncoder));
 		return SignUpDto.from(savedMember);
+	}
+
+	private void validateDuplicatedEmail(Optional<Member> byEmail) {
+		if (byEmail.isPresent()) {
+			Member member = byEmail.get();
+			if (member.isWithdrawal()) {
+				throw new UserHandlerException(WITHDRAWAL_EMAIL);
+			}
+
+			throw new UserHandlerException(ALREADY_EXIST_EMAIL);
+		}
 	}
 
 	public LoginDto.Response login(LoginDto.Request loginRequest) {
@@ -47,12 +60,6 @@ public class AuthService {
 				.tokenInfo(tokenInfo)
 				.userInfo(LoginDto.from(findMember))
 				.build();
-	}
-
-	private void validateDuplicatedEmail(String email) {
-		if (memberRepository.existsByEmailAndIsWithdrawalFalse(email)) {
-			throw new UserHandlerException(ALREADY_EXIST_EMAIL);
-		}
 	}
 
 	private void validatePassword(String rawPassword, String encodedPassowrd) {
