@@ -7,7 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.deliverykim.deliverykim.domain.member.model.entity.Member;
 import com.deliverykim.deliverykim.domain.member.repository.MemberRepository;
+import com.deliverykim.deliverykim.global.auth.model.dto.Login;
 import com.deliverykim.deliverykim.global.auth.model.dto.SignUpDto;
+import com.deliverykim.deliverykim.global.config.PasswordEncoder;
 import com.deliverykim.deliverykim.global.exception.custom.UserHandlerException;
 
 import lombok.RequiredArgsConstructor;
@@ -25,17 +27,34 @@ import lombok.extern.slf4j.Slf4j;
 public class AuthService {
 
 	private final MemberRepository memberRepository;
+	private final PasswordEncoder passwordEncoder;
 
-	public SignUpDto.Response register(SignUpDto.Request signupRequest) {
-		validateDuplicatedEmail(signupRequest);
+	public SignUpDto.Response signUp(SignUpDto.Request signupRequest) {
+		validateDuplicatedEmail(signupRequest.getEmail());
 
-		Member savedMember = memberRepository.save(signupRequest.toEntity());
+		Member savedMember = memberRepository.save(signupRequest.toEntity(passwordEncoder));
 		return SignUpDto.from(savedMember);
 	}
 
-	private void validateDuplicatedEmail(SignUpDto.Request signupRequest) {
-		if (memberRepository.existsByEmail(signupRequest.getEmail())) {
+	public Login.Response login(Login.Request loginRequest) {
+		validateDuplicatedEmail(loginRequest.getEmail());
+		validatePassword(loginRequest);
+
+		return null;
+	}
+
+	private void validateDuplicatedEmail(String email) {
+		if (memberRepository.existsByEmail(email)) {
 			throw new UserHandlerException(ALREADY_EXIST_EMAIL);
+		}
+	}
+
+	private void validatePassword(Login.Request loginRequest) {
+		Member member = memberRepository.findByEmail(loginRequest.getEmail())
+			.orElseThrow(() -> new UserHandlerException(DO_NOT_EXIST_EMAIL));
+
+		if (!passwordEncoder.matches(loginRequest.getPassword(), member.getPassword())) {
+			throw new UserHandlerException(DO_NOT_MATCH_PASSWORLD);
 		}
 	}
 }

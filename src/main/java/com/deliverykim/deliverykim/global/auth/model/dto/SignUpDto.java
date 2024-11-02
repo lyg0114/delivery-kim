@@ -1,6 +1,7 @@
 package com.deliverykim.deliverykim.global.auth.model.dto;
 
 import com.deliverykim.deliverykim.domain.member.model.entity.Member;
+import com.deliverykim.deliverykim.global.config.PasswordEncoder;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -40,8 +41,11 @@ public class SignUpDto {
 		)
 		private String comparePassword;
 
-		public Member toEntity() {
-			return null;
+		public Member toEntity(PasswordEncoder passwordEncoder) {
+			return Member.builder()
+				.email(email)
+				.password(passwordEncoder.encode(password))
+				.build();
 		}
 	}
 

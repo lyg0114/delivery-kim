@@ -34,6 +34,8 @@ public enum ResponseCode {
 
 	//---------------------------------------- 회원 도메인 영역 ( 2000 ~ 2999 ) ----------------------------------------
 	ALREADY_EXIST_EMAIL("2000", "이미 존재하는 이메일 입니다.", HttpStatus.BAD_REQUEST),
+	DO_NOT_EXIST_EMAIL("2001", "존재하지 않는 이메일 입니다.", HttpStatus.BAD_REQUEST),
+	DO_NOT_MATCH_PASSWORLD("2002", "패스워드가 일치하지 않습니다.", HttpStatus.BAD_REQUEST),
 
 	;
 
