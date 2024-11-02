@@ -33,8 +33,8 @@ public enum ResponseCode {
 	EXCHANGE_FALLBACK("9999", "내부 서비스 통신 오류.", HttpStatus.INTERNAL_SERVER_ERROR),
 
 	//---------------------------------------- 회원 도메인 영역 ( 2000 ~ 2999 ) ----------------------------------------
-	ALREADY_EXIST_EMAIL("2000", "이미 존재하는 이메일", HttpStatus.BAD_REQUEST),
-	DO_NOT_EXIST_EMAIL("2001", "존재하지 않는 이메일", HttpStatus.BAD_REQUEST),
+	ALREADY_EXIST_EMAIL("2000", "이미 존재하는 계정", HttpStatus.BAD_REQUEST),
+	DO_NOT_EXIST_EMAIL("2001", "존재하지 않는 계정", HttpStatus.BAD_REQUEST),
 	DO_NOT_MATCH_PASSWORLD("2002", "패스워드 불일치", HttpStatus.BAD_REQUEST),
 	TOKEN_AUTHENTICATION_FAIL("2003", "토큰 인증 실패", HttpStatus.UNAUTHORIZED),
 	TOKEN_EXPIRED_ERROR("2004","토큰 기한 만료",HttpStatus.UNAUTHORIZED),
