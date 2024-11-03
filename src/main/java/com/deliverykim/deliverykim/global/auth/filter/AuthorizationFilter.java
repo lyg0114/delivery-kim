@@ -1,25 +1,25 @@
 package com.deliverykim.deliverykim.global.auth.filter;
 
-import com.deliverykim.deliverykim.global.auth.service.AuthService;
+import static com.deliverykim.deliverykim.global.exception.ResponseCode.*;
+import static java.nio.charset.StandardCharsets.*;
+import static org.springframework.http.HttpHeaders.*;
+import static org.springframework.http.MediaType.*;
+
+import java.net.URLEncoder;
+
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
 import com.deliverykim.deliverykim.global.auth.service.TokenManager;
 import com.deliverykim.deliverykim.global.exception.ResponseCode;
 import com.deliverykim.deliverykim.global.exception.custom.AuthenticationException;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
-
-import java.net.URLEncoder;
-
-import static com.deliverykim.deliverykim.global.exception.ResponseCode.RESULT_CODE;
-import static com.deliverykim.deliverykim.global.exception.ResponseCode.RESULT_MESSAGE;
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
 @Component
