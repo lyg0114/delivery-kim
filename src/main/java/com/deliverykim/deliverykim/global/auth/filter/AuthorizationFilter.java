@@ -27,7 +27,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class AuthorizationFilter extends OncePerRequestFilter {
 
     private final TokenManager tokenManager;
-    private final AuthService authService;
 
     public static final String REFRESH_TOKEN = "Refresh-token";
 
