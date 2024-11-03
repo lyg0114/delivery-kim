@@ -3,8 +3,10 @@ package com.deliverykim.deliverykim.global.auth.model.dto;
 import com.deliverykim.deliverykim.domain.member.model.entity.Member;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * @author : iyeong-gyo
@@ -17,6 +19,8 @@ public class LoginDto {
 
     @Builder
     @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class Request {
 
         @NotBlank

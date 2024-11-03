@@ -31,11 +31,19 @@ public class JsonUtil {
 		return new String(byteArray);
 	}
 
-	public static <T> T converObjectFromJsonStr(String jsonString, Class<T> valueType) {
+	public static <T> T converObjFromJsonStr(String jsonString, Class<T> valueType) {
 		try {
 			return objectMapper.readValue(jsonString, valueType);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
+		}
+	}
+
+	public static String converStrFromObj(Object obj) {
+		try {
+			return objectMapper.writeValueAsString(obj);
+		} catch (Exception e) {
+			throw new RuntimeException("Failed to convert object to JSON string", e);
 		}
 	}
 

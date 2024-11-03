@@ -1,0 +1,6 @@
+{
+  "email": "wrongemail",
+  "password": "Testtest!1",
+  "comparePassword": "Testtest!1",
+  "memberRole": "OWNER"
+}

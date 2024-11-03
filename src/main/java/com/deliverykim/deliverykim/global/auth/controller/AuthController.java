@@ -27,7 +27,7 @@ public class AuthController {
 		return new CommonResponseEntity<>(ResponseCode.SUCCESS, authService.signUp(signupRequest));
 	}
 
-	@GetMapping("/login")
+	@PostMapping("/login")
 	public CommonResponseEntity<LoginDto.Response> login(@Valid @RequestBody LoginDto.Request loginRequest) {
 		return new CommonResponseEntity<>(ResponseCode.SUCCESS, authService.login(loginRequest));
 	}
