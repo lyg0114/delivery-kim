@@ -1,4 +1,4 @@
-package com.deliverykim.deliverykim.global.auth.controller;
+package com.deliverykim.deliverykim.unit.global.auth.controller;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.deliverykim.deliverykim.global.auth.model.dto.SignUpDto;
 import com.deliverykim.deliverykim.global.auth.service.AuthService;
 import com.deliverykim.deliverykim.global.auth.service.TokenManager;
-import com.deliverykim.deliverykim.global.util.JsonUtil;
+import com.deliverykim.deliverykim.util.JsonUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -42,7 +42,7 @@ class AuthControllerTest {
 	@Test
 	void signUp() throws Exception {
 		// given
-		String requestJsonStr = JsonUtil.readJsonStrFromFile("sample/auth/controller/signUp/success.json");
+		String requestJsonStr = JsonUtil.readJsonStrFromFile("deliverykim/unit/auth/controller/signUp/success.json");
 		SignUpDto.Request request = JsonUtil.converObjectFromJsonStr(requestJsonStr, SignUpDto.Request.class);
 
 		SignUpDto.Response response = SignUpDto.Response.builder()

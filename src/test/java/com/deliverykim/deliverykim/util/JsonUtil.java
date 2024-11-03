@@ -1,4 +1,4 @@
-package com.deliverykim.deliverykim.global.util;
+package com.deliverykim.deliverykim.util;
 
 import java.io.File;
 import java.io.IOException;
