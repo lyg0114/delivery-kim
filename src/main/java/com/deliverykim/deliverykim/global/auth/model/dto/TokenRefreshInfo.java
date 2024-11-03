@@ -1,8 +1,10 @@
 package com.deliverykim.deliverykim.global.auth.model.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * @author : leeyounggyo
@@ -11,6 +13,8 @@ import lombok.Getter;
  */
 @Builder
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class TokenRefreshInfo {
 
     @NotBlank

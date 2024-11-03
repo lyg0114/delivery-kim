@@ -32,7 +32,7 @@ public class AuthController {
 		return new CommonResponseEntity<>(ResponseCode.SUCCESS, authService.login(loginRequest));
 	}
 
-	@GetMapping("/refresh-token")
+	@PostMapping("/refresh-token")
 	public CommonResponseEntity<TokenInfo> refreshToken(@Valid @RequestBody TokenRefreshInfo tokenRefreshInfo) {
 		return new CommonResponseEntity<>(ResponseCode.SUCCESS, authService.refreshToken(tokenRefreshInfo));
 	}

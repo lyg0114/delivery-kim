@@ -40,8 +40,7 @@ public enum ResponseCode {
 	TOKEN_EXPIRED_ERROR("2004","토큰 기한 만료",HttpStatus.UNAUTHORIZED),
 	REFRESH_TOKEN_AUTHENTICATION_FAIL("2005", "리프레쉬 토큰 인증 실패", HttpStatus.UNAUTHORIZED),
 	INVALID_TOKEN("2007", "유효 하지 않은 토큰", HttpStatus.UNAUTHORIZED),
-	ALREADY_WITHDRAWAL_MEMBER("2008", "이미 탈퇴처리된 계정", HttpStatus.UNAUTHORIZED),
-	WITHDRAWAL_EMAIL("2009", "탈퇴처리된 계정", HttpStatus.UNAUTHORIZED),
+	WITHDRAWAL_EMAIL("2009", "이미 탈퇴처리된 계정", HttpStatus.UNAUTHORIZED),
 
 
 	;

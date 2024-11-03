@@ -4,6 +4,7 @@ import com.deliverykim.deliverykim.domain.member.model.entity.Member;
 import com.deliverykim.deliverykim.domain.member.repository.MemberRepository;
 import com.deliverykim.deliverykim.global.auth.model.dto.*;
 import com.deliverykim.deliverykim.global.config.PasswordEncoder;
+import com.deliverykim.deliverykim.global.exception.ResponseCode;
 import com.deliverykim.deliverykim.global.exception.custom.UserHandlerException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,6 +53,7 @@ public class AuthService {
 		Member findMember = memberRepository.findByEmail(loginRequest.getEmail())
 				.orElseThrow(() -> new UserHandlerException(DO_NOT_EXIST_EMAIL));
 
+		validateWithdrawalMember(findMember);
 		validatePassword(loginRequest.getPassword(), findMember.getPassword());
 
 		TokenInfo tokenInfo = tokenManager.generateAuthenticationToken(AuthInfo.from(findMember));
@@ -60,6 +62,12 @@ public class AuthService {
 				.tokenInfo(tokenInfo)
 				.userInfo(LoginDto.from(findMember))
 				.build();
+	}
+
+	private void validateWithdrawalMember(Member findMember) {
+		if (findMember.isWithdrawal()) {
+			throw new UserHandlerException(ResponseCode.WITHDRAWAL_EMAIL);
+		}
 	}
 
 	private void validatePassword(String rawPassword, String encodedPassowrd) {
@@ -73,7 +81,7 @@ public class AuthService {
 				.orElseThrow(() -> new UserHandlerException(DO_NOT_EXIST_EMAIL));
 
 		if (findMember.isWithdrawal()) {
-			throw new UserHandlerException(ALREADY_WITHDRAWAL_MEMBER);
+			throw new UserHandlerException(WITHDRAWAL_EMAIL);
 		}
 
 		validatePassword(withdrawalRequest.getPassword(), findMember.getPassword());
