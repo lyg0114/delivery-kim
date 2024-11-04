@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum StoreStatus {
 
-	OPEN("운영중"),
+	OPERATING("운영중"),
 	CLOSED("폐업");
 
 	private final String name;

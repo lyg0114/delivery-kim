@@ -70,6 +70,6 @@ public class Store extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	@Comment("가게의 운영상태")
 	@Column(name = "store_status")
-	private StoreStatus storeStatus = StoreStatus.OPEN;
+	private StoreStatus storeStatus = StoreStatus.OPERATING;
 
 }
