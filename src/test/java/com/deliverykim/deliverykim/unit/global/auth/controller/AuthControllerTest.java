@@ -126,6 +126,32 @@ class AuthControllerTest {
                 .andDo(print());
     }
 
+    @DisplayName("회원탈퇴 : 정상 탈퇴")
+    @Test
+    void withdrawal_test_1() throws Exception {
+        // given
+        AuthInfo authInfo = AuthInfo.builder()
+                .email("yglee@gmail.com")
+                .memberRole(MemberRole.USER)
+                .build();
+
+        TokenInfo tokenInfo = tokenManager.generateAuthenticationToken(authInfo);
+        String successWithdrawal = JsonUtil.readJsonStrFromFile("deliverykim/unit/auth/controller/withdrawal/success_withdrawal.json");
+
+        doNothing().when(authService).withdrawal(any(WithdrawalDto.Request.class));
+
+        // when, then
+        mockMvc.perform(delete("/api/v1/auth/withdrawal")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header(AUTHORIZATION, tokenInfo.getAccessToken())
+                        .header(REFRESH_TOKEN, tokenInfo.getRefreshToken())
+                        .content(successWithdrawal)
+                )
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(header().string(RESULT_CODE, ResponseCode.SUCCESS.getCode()))
+                .andDo(print());
+    }
+
     @DisplayName("회원탈퇴 : 이미 탈퇴한 계정")
     @Test
     void withdrawal_test_2() throws Exception {
@@ -136,7 +162,7 @@ class AuthControllerTest {
                 .build();
 
         TokenInfo tokenInfo = tokenManager.generateAuthenticationToken(authInfo);
-        String successWithdrawal = JsonUtil.readJsonStrFromFile("deliverykim/unit/auth/controller/withdrawal/fail_withdrawal.json");
+        String failWithdrawal = JsonUtil.readJsonStrFromFile("deliverykim/unit/auth/controller/withdrawal/fail_withdrawal.json");
 
         doThrow(new UserHandlerException(WITHDRAWAL_EMAIL))
                 .when(authService)
@@ -147,7 +173,7 @@ class AuthControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(AUTHORIZATION, tokenInfo.getAccessToken())
                         .header(REFRESH_TOKEN, tokenInfo.getRefreshToken())
-                        .content(successWithdrawal)
+                        .content(failWithdrawal)
                 )
                 .andExpect(status().is4xxClientError())
                 .andExpect(header().string(RESULT_CODE, ResponseCode.WITHDRAWAL_EMAIL.getCode()))
