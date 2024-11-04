@@ -58,7 +58,6 @@ class AuthControllerTest {
 
         when(authService.signUp(any(SignUpDto.Request.class))).thenReturn(response);
 
-
         // when, then
         mockMvc.perform(post("/api/v1/auth/sign-up")
                         .contentType(MediaType.APPLICATION_JSON)
