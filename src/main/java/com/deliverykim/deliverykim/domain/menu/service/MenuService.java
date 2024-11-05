@@ -5,6 +5,7 @@ import com.deliverykim.deliverykim.domain.member.repository.MemberRepository;
 import com.deliverykim.deliverykim.domain.menu.model.dto.MenuDto;
 import com.deliverykim.deliverykim.domain.menu.model.entity.Menu;
 import com.deliverykim.deliverykim.domain.menu.repository.MenuRepository;
+import com.deliverykim.deliverykim.domain.store.model.entity.Store;
 import com.deliverykim.deliverykim.global.auth.model.dto.VerifyTokenInfo;
 import com.deliverykim.deliverykim.global.auth.service.TokenManager;
 import com.deliverykim.deliverykim.global.exception.custom.UserHandlerException;
@@ -46,9 +47,9 @@ public class MenuService {
                 .orElseThrow(() -> new UserHandlerException(DO_NOT_EXIST_EMAIL));
 
         // 본인 가게인지 검증
-        member.hasStore(menuRequest);
+        Store ownerStore = member.hasStore(menuRequest);
 
-        Menu savedMenu = menuRepository.save(menuRequest.toEntity());
+        Menu savedMenu = menuRepository.save(menuRequest.toEntity(ownerStore));
 
         return MenuDto.from(savedMenu);
     }

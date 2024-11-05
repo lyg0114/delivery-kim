@@ -1,25 +1,17 @@
 package com.deliverykim.deliverykim.domain.menu.model.entity;
 
-import static jakarta.persistence.FetchType.*;
-import static jakarta.persistence.GenerationType.*;
-import static lombok.AccessLevel.*;
-
-import org.hibernate.annotations.Comment;
-
 import com.deliverykim.deliverykim.domain.common.BaseEntity;
 import com.deliverykim.deliverykim.domain.store.model.entity.Store;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
+
+import static jakarta.persistence.FetchType.LAZY;
+import static jakarta.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.PROTECTED;
 
 /**
  * @author : iyeong-gyo
@@ -48,9 +40,9 @@ public class Menu extends BaseEntity {
 	@Column(name = "menu_name")
 	private String menuName;
 
+	@Builder.Default
 	@Comment("메뉴 삭제 여부")
 	@Column(name = "is_Delete")
-	@Builder.Default
 	private boolean isDeleted = false;
 
 }
