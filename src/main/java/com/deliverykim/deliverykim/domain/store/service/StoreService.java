@@ -10,6 +10,8 @@ import com.deliverykim.deliverykim.global.auth.service.TokenManager;
 import com.deliverykim.deliverykim.global.exception.custom.UserHandlerException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,8 +33,9 @@ public class StoreService {
     private final MemberRepository memberRepository;
     private final TokenManager tokenManager;
 
-    public StoreDto.Response findStores(StoreDto.Search storeSearch) {
-        return null;
+    public Page<StoreDto.Response> findStores(StoreDto.Search storeSearch, Pageable pageable) {
+        Page<Store> allByStoreName = storeRepository.findAllByStoreName(storeSearch.getStoreName(), pageable);
+        return allByStoreName.map(StoreDto::from);
     }
 
     public StoreDto.Response getStore(Long storeId) {
@@ -70,6 +73,10 @@ public class StoreService {
     }
 
     public void closeStore(Long storeId) {
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new UserHandlerException(DO_NOT_EXIST_EMAIL));
+
+        store.closeStore();
     }
 
 }

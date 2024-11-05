@@ -1,32 +1,22 @@
 package com.deliverykim.deliverykim.domain.store.model.entity;
 
-import static jakarta.persistence.FetchType.*;
-import static jakarta.persistence.GenerationType.*;
-import static lombok.AccessLevel.*;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
-import com.deliverykim.deliverykim.domain.store.model.dto.StoreDto;
-import org.hibernate.annotations.Comment;
-
 import com.deliverykim.deliverykim.domain.common.BaseEntity;
 import com.deliverykim.deliverykim.domain.member.model.entity.Member;
 import com.deliverykim.deliverykim.domain.store.model.define.StoreStatus;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.deliverykim.deliverykim.domain.store.model.dto.StoreDto;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+import static jakarta.persistence.FetchType.LAZY;
+import static jakarta.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.PROTECTED;
 
 /**
  * @author : iyeong-gyo
@@ -86,5 +76,9 @@ public class Store extends BaseEntity {
 		if (storeRequest.getMinimumOrderPrice() != null) {
 			minimumOrderPrice = storeRequest.getMinimumOrderPrice();
 		}
+	}
+
+	public void closeStore() {
+		storeStatus = StoreStatus.CLOSED;
 	}
 }

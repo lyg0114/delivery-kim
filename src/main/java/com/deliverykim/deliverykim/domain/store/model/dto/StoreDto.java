@@ -76,6 +76,7 @@ public class StoreDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Search {
+        private String storeName;
     }
 
 }

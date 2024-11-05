@@ -9,6 +9,8 @@ import com.deliverykim.deliverykim.global.exception.ResponseCode;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -26,8 +28,10 @@ public class StoreController {
     private final StoreService storeService;
 
     @GetMapping("/search")
-    public CommonResponseEntity<StoreDto.Response> findStores(@ModelAttribute StoreDto.Search storeSearch) {
-        return new CommonResponseEntity<>(ResponseCode.SUCCESS, storeService.findStores(storeSearch));
+    public CommonResponseEntity<Page<StoreDto.Response>> findStores(@ModelAttribute StoreDto.Search storeSearch,
+                                                                    Pageable pageable) {
+
+        return new CommonResponseEntity<>(ResponseCode.SUCCESS, storeService.findStores(storeSearch, pageable));
     }
 
     @GetMapping("/search/{store-id}")
