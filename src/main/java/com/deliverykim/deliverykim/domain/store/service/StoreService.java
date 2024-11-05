@@ -36,7 +36,10 @@ public class StoreService {
     }
 
     public StoreDto.Response getStore(Long storeId) {
-        return null;
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new UserHandlerException(DO_NOT_EXIST_EMAIL));
+
+        return StoreDto.from(store);
     }
 
     public StoreDto.Response createStore(StoreDto.Request storeRequest) {
@@ -59,10 +62,14 @@ public class StoreService {
         }
     }
 
-    public void updateStore(StoreDto.Request storeRequest) {
+    public void updateStore(Long storeId, StoreDto.Request storeRequest) {
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new UserHandlerException(DO_NOT_EXIST_EMAIL));
 
+        store.updateStore(storeRequest);
     }
 
     public void closeStore(Long storeId) {
     }
+
 }

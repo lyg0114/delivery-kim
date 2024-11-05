@@ -21,8 +21,13 @@ import java.time.LocalDateTime;
 @Getter
 public class StoreDto {
 
-    public static Response from(Store savedStore) {
-        return StoreDto.Response.builder()
+    public static Response from(Store store) {
+        return Response.builder()
+                .ownerEmail(store.getOwner().getEmail())
+                .storeName(store.getStoreName())
+                .openTime(store.getOpenTime())
+                .closeTime(store.getCloseTime())
+                .minimumOrderPrice(store.getMinimumOrderPrice())
                 .build();
     }
 

@@ -7,6 +7,7 @@ import static lombok.AccessLevel.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.deliverykim.deliverykim.domain.store.model.dto.StoreDto;
 import org.hibernate.annotations.Comment;
 
 import com.deliverykim.deliverykim.domain.common.BaseEntity;
@@ -72,4 +73,18 @@ public class Store extends BaseEntity {
 	@Column(name = "store_status")
 	private StoreStatus storeStatus = StoreStatus.OPERATING;
 
+	public void updateStore(StoreDto.Request storeRequest) {
+		if (storeRequest.getStoreName() != null && !storeRequest.getStoreName().trim().isEmpty()) {
+			storeName = storeRequest.getStoreName();
+		}
+		if (storeRequest.getOpenTime() != null) {
+			openTime = storeRequest.getOpenTime();
+		}
+		if (storeRequest.getCloseTime() != null) {
+			closeTime = storeRequest.getCloseTime();
+		}
+		if (storeRequest.getMinimumOrderPrice() != null) {
+			minimumOrderPrice = storeRequest.getMinimumOrderPrice();
+		}
+	}
 }

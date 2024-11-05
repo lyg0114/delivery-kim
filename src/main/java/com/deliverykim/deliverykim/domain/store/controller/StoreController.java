@@ -41,8 +41,10 @@ public class StoreController {
     }
 
     @PatchMapping("/{store-id}")
-    public CommonResponseEntity<Void> updateStore(@Valid @RequestBody StoreDto.Request storeRequest) {
-        storeService.updateStore(storeRequest);
+    public CommonResponseEntity<Void> updateStore(@PathVariable(name = "store-id") Long storeId,
+                                                  @Valid @RequestBody StoreDto.Request storeRequest) {
+
+        storeService.updateStore(storeId, storeRequest);
         return new CommonResponseEntity<>(ResponseCode.SUCCESS);
     }
 
