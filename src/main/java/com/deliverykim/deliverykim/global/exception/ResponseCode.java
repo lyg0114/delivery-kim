@@ -43,6 +43,9 @@ public enum ResponseCode {
 	WITHDRAWAL_EMAIL("2009", "이미 탈퇴처리된 계정", HttpStatus.UNAUTHORIZED),
 	TOKEN_NOT_AUTHORIZED("2010", "유효하지 않은 권한", HttpStatus.UNAUTHORIZED),
 
+	//---------------------------------------- 스토어 도메인 영역 ( 3000 ~ 3999 ) ----------------------------------------
+	STORE_COUNT_LIMIT_EXCEEDED("3000", "가게주인당 스토어는 최대 3개까지 허용", HttpStatus.BAD_REQUEST),
+
 
 	;
 
