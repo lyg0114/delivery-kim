@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
  * @since : 2024. 11. 3.
  */
 @Slf4j
-@Authorized(MemberRole.OWNER)
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/store")
@@ -39,11 +38,13 @@ public class StoreController {
         return new CommonResponseEntity<>(ResponseCode.SUCCESS, storeService.getStore(storeId));
     }
 
+    @Authorized(MemberRole.OWNER)
     @PostMapping("/")
     public CommonResponseEntity<StoreDto.Response> createStore(@Valid @RequestBody StoreDto.Request storeRequest) {
         return new CommonResponseEntity<>(ResponseCode.SUCCESS, storeService.createStore(storeRequest));
     }
 
+    @Authorized(MemberRole.OWNER)
     @PatchMapping("/{store-id}")
     public CommonResponseEntity<Void> updateStore(@PathVariable(name = "store-id") Long storeId,
                                                   @Valid @RequestBody StoreDto.Request storeRequest) {
@@ -52,6 +53,7 @@ public class StoreController {
         return new CommonResponseEntity<>(ResponseCode.SUCCESS);
     }
 
+    @Authorized(MemberRole.OWNER)
     @PatchMapping("/{store-id}/close")
     public CommonResponseEntity<Void> closeStore(@PathVariable(name = "store-id") Long storeId) {
         storeService.closeStore(storeId);
