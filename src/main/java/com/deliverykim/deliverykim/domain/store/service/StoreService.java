@@ -2,6 +2,7 @@ package com.deliverykim.deliverykim.domain.store.service;
 
 import com.deliverykim.deliverykim.domain.member.model.entity.Member;
 import com.deliverykim.deliverykim.domain.member.repository.MemberRepository;
+import com.deliverykim.deliverykim.domain.store.model.define.StoreStatus;
 import com.deliverykim.deliverykim.domain.store.model.dto.StoreDto;
 import com.deliverykim.deliverykim.domain.store.model.entity.Store;
 import com.deliverykim.deliverykim.domain.store.repository.StoreRepository;
@@ -57,10 +58,10 @@ public class StoreService {
         return StoreDto.from(savedStore);
     }
 
-    // 사장이 가지고 있는 가게가 3개를 넘어 면 예외
+    // 사장이 운영중인 가게가 3개 까지
     private void validateStoreCount(Member owner) {
-        long count = storeRepository.countByOwner(owner);
-        if (count > 3) {
+        long operationStoreCount = storeRepository.countByOwnerAndStoreStatus(owner, StoreStatus.OPERATING);
+        if (operationStoreCount > 3) {
             throw new UserHandlerException(STORE_COUNT_LIMIT_EXCEEDED);
         }
     }
